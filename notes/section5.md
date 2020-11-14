@@ -44,7 +44,7 @@ using namespace std;
 This allows us to refer to things from that namespace (like `cin` and `cout`) without specifying the namespace using the resolution operator.
 
 Similar to python, you specify particular functions that you'd like to use, rather than simply importing everything by using the `using` directive:
-```
+```c++
 using std::cout;
 using std::cin;
 using std::endl;
@@ -60,7 +60,7 @@ Note that `"\n"` doesn't actually flush the buffer but emulates that behaviour
 
 The buffer - Characters are not actually read _directly_ from your keyboard... They're stored in a buffer. The buffer needs to be created before the next input can be read or output can be written.
 
-```
+```c++
 #include<stdio.h>
 #include<conio.h>
 void main()
@@ -94,7 +94,7 @@ In the second run of the program, the secnod variable is stored in the buffer an
 
 but if we flush the buffer:
 
-```
+```c++
 #include<stdio.h>
 #include<conio.h>
 void main()
