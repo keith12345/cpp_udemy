@@ -101,4 +101,60 @@ c++ is similar to python in that it has truthy and falsy bools.
 Strings and characters actually need to be indicated in different ways!
 string receive double (and or single quotes??) while `char`s receive single quotes.
 
+## Working with variable size
+* the `sizeof()` built-in tells you the size in bytes of the type that you're looking at for the specific machine and compiler that you're working on.
+* You can also check the size of different variables 
+* gets info from two different include files:
+    * `<climits>` and `<cfloat>`
+* includes constants `INT_MAX`, `INT_MIN`, same for long, flt, etc.
+
+## Constants
+
+### Literal Constants
+
+Term used to refer to values that the program is unable to alter. These are things such as `char`s `string`s, `int`s, `float`s.  
+Types can obviously be specified.
+```c++
+12 // integer
+12U // unsigned integer
+12L // long integer
+12LL // long long integer
+
+12.1 // double
+12.F //  float
+12.1L // long double
+```
+
+There are also character literal constants:  
+These are also refered to a "string literals".  
+``` c++
+"\n" // newline
+"\r" // return
+"\t" // tab
+"\b" // backspace
+"\'" // single quote
+"\"" // double quote
+"\\" // backslash
+```
+
+### Declared Constants
+
+```c++
+const double pi {3.1415926};
+```
+
+Cannot be redeclared (will throw a compiler error if attempted).
+
+### Defined Constants
+
+Old school.
+
+Uses the pre-processor statements:
+
+```c++
+#define pi 3.1415926
+```
+
+The compiler will literally go through and replace every mention of the defined constant and swap it with the specified value.
+
 ## Look up CLimit and CFloat mantissa
