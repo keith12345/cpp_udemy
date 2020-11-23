@@ -277,6 +277,28 @@ continue - No further statements are executed, immediately jump to the next iter
 
 break - No further statements are executed, immediately terminate the loop.
 
+### Infinite loops:
+
+ya know...
+
+Code example:  
+```c++
+for (;;) {
+    statements;
+}
+
+// or
+
+while (true) {
+    statements;
+}
+```
+
+### Nested loops:
+
+mhmmm...
+
+
 ## Miscellaneous:
 
 ### Block statements:
@@ -347,3 +369,4 @@ int main() {
     }
 }
 ```
+
