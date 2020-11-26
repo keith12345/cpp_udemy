@@ -90,3 +90,162 @@ There are other general purpose functions in `cstdlib` which are used to convert
 #include <cstdlib> // converting to numeric
 ```
 
+## String functions
+
+```c++
+strcpy(string2, string1); // note that this copies from right to left
+strcat(string2, "more string"); // This concats the string on the right to string2
+strcmp(string1, string2); // to check whether these are identical
+```
+
+### Get line
+
+`cin` only gets the first non-space-separate string... but what if you want moar?
+
+```c++
+char some_string[50] {};
+cin.getline(some_string, 50); // This will take the first 50 characters of input
+```
+
+## c++ Stings
+
+Part of the standard namespace.  
+Part of the standard template library.  
+Contiguous in memory with dynamic sizes.  
+Work with input and output streams.  
+Can be converted to c-style strings if necessary but are safer.  
+Standard operators work similarly with c++ styles to that in python (`+`, `=`, etc.)
+
+```c++
+#include <string>
+
+string s1; //empty
+string s2 {"Keith"}; // Keith
+string s3 {s2}; // Keith
+string s4 {"Keith", 3}; // Kei
+string s5 {s3, 2, 3}; // ith - uses starting index and length
+string s6 (3, 'X'); // XXX - remember that this is called constructor syntax
+```
+
+Note that cpp strings are always automatically initialized to empty strings
+
+### Concatenation
+
+```c++
+string part1 {"C++"};
+string part2 {"is a powerful"};
+
+string sentence;
+
+sentence = part1 + " " + part2 + " language";
+  //  C++ is a powerful language
+
+sentence = "C++" + " is powerful"; // will not work as they are compiled as string literal
+```
+
+### Subscription
+
+```c++ 
+string s7 {"Keith"};
+
+cout << s7[0] << enddl;
+cout << s7.at(0) << endl; // K
+cout << s7.at(0) << endl; // K
+
+s7[0] = 'k';
+cout << s7 << endl; // keith
+s7.at(0) = 'l';  
+cout << s7 << endl; // leith
+```
+
+We can also iteraget over a string:  
+
+```c++
+for (char c: s7) 
+    cout << c << endl;
+// l
+// e
+// i
+// t
+// h
+```
+
+We can also do some janky shit like this:
+
+```c++
+for (int c: s7) 
+    cout << c << endl;
+// 108
+// 101
+// 105
+// 116
+// 104
+```
+
+Note that it looks like some versions of c++ (or perhaps different compilers) will actually print the null character.
+
+### String Methods 
+
+#### substring
+
+```c++
+string s10 {"This is a test"};
+
+cout << s10.substr(5, 2) << endl;
+string s11 {s10, 5 , 2};
+cout << s11 << endl;
+```
+
+Both output `"is"`
+
+#### Substrings
+
+`.find()` returns the index of the first instance of a particular string:
+
+```c++
+string s12 {"Another test"};
+cout << s12.length() << endl;
+cout << s12.find("test") << endl;
+// returns 8
+cout << s12.find("yo") << endl;
+// supposedly should return string "npos" but in my case returned a MASSIVE number
+cout << s12.rfind("er") <<
+// returns 5
+cout << s12.erase(0, 2) << endl; // argument are starting index and length of string of delete
+cout << s12.erase(5, 5) << endl;
+cout << s12.clear() << endl; // won't work, can't print void
+// other test
+// other
+```
+
+Note that, just like python, c++ supports command assignment (`+=`) string concatenation.
+
+Taking input is slightly different with c++ strings from how it is with c-strings.  
+
+```c++
+cin.getline(s13, 50); // c-style string
+getline(cin, s14); // Reads until \n
+getline(cin, s15, 'x'); // read entire line until 'x'
+```
+
+### Implicit conversion
+
+c++ will actually implicitly convert/coerce types for c-style strings/chars/string literals when compared with a c++ style string.
+
+```c++
+string s8 {"test"};
+char s9[7] {"tester"};
+cout << (s8.at(0) == s9[0]) << endl;
+// prints 1
+```
+
+## Miscellaneous
+
+### size_t
+
+When a program has no way of knowing how large a number might get, it will be of the type `size_t`, at least when dealing with things like the length of an array of vector. `size_t` is necessarily unsigned:  
+```c++
+char some_string {"This is my string"};
+size_t l = strlen(some_string);
+```
+
