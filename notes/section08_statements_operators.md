@@ -220,7 +220,7 @@ false && false; // will short-circuit
 Also similar to python. Supports things like:
 
 ```c++
-int a = {5};
+int a {5};
 a += 3;
 cout << a << endl; // returns 8
 ```
@@ -248,7 +248,7 @@ Most operators perform operations left to right but there are a few exceptions.
 If there are two different operators with the same precedence, associativity is used to determine which operations are performed first.  
 ```
 expression1 (l->r operator) expression2 (l->r operator) expression3  // operates on expressions 1 and 2 first
-expression1 (r->l operator) expression2 (l->r operator) expression3  // operates on expressions 2 and 2 first
+expression1 (r->l operator) expression2 (l->r operator) expression3  // operates on expressions 2 and 3 first
 ```
 
 ## Miscellaneous:

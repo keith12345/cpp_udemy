@@ -12,7 +12,7 @@ Arrays and vecotrs are both examples of compound data types, data types that sto
 * Sounds like you should be able to store objects in arrays (think iterating through a random forest)
 * Array allocations are contiguous in memory (this allows fast access).
 * Arrays are zero indexed.
-* If you try to index out of range I think you get an errors
+* If you try to access an index that's out of range you'll access whatever happens to be at that memory address
 * When you print an array (not the contents of that array) you actually get the memory address of that array
 * Note that some compilers actually place limits on the number of dimensions that arrays can have
 
@@ -60,16 +60,16 @@ arr[9] = 1000;
 Arrays are stored as contiguous chunks of memory. We know that the name of an array (as far as cpp is concerned) is its address in memory. We also know that when we initialize an array, we know the type and the size of that type. With that information we can understand how indexing actually works.  
 If an array is stored at location `1000` and its type is `int` (this size of which is `4` bytes), then we simply increment the memory location by `4` to get the next index of the array.  
 So, the 7th element of an array stored at memory location `1000` would be:  
-`some_array[(7-1)*4]`  
+`1000+(7-1)*4`  
 This will get you something at memory address `1024`, the seventh element of that array.  
 So, when you try to index something that is beyond the bounds of the array, you're trying to access some location in memory and you have no idea what that thing might be.
 
 ### Multi-dimensional arrays
 Similar to declaring single demensional arrays but both dimensions are specified. For example:  
 ``` c++
-int move_rating [3][4];
+int movie_rating [3][4];
 ```
-Would create a `4 x 3` array.
+Would create a `3 x 4` array.
 
 ## Vectors
 

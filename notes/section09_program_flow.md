@@ -90,7 +90,7 @@ int main() {
             cout << "4 was selected" << endl;
             break;
         default:
-            cout << "None of 1, 2, 3, 4 were selected" << endl;
+            cout << "None of 1, 2, 3, 4 was selected" << endl;
     }
 }
 ```
@@ -109,7 +109,7 @@ Just like an if/else, case statements can include elaborate logic, of if/else/ca
 
 ### Enum
 
-Note that all constants with an `enum` should be handled by case statemnts. Depending on the compiler, compilation will not necessarily fail but it will at least give a warning. Extraneous values can within an `enum` can be handled in the `default`.
+Note that all constants with an `enum` should be handled by case statemnts. Depending on the compiler, compilation will not necessarily fail but it will at least give a warning. Extraneous values within an `enum` can be handled in the `default`.
 
 ### Default
 
@@ -188,7 +188,7 @@ int main() {
 // 5 * 16 : 80
 ```
 
-**Note on condition expressions in loops** - greater than andd less then will throw a warning when comparing different types (e.g. signed and unsigned integers). A common place where we find unsigned integers is with `vector.size()`. To avoid those, simply initialize an `unsigned` instead of an int.
+**Note on condition expressions in loops** - greater than and less than will throw a warning when comparing different types (e.g. signed and unsigned integers). A common place where we find unsigned integers is with `vector.size()`. To avoid those, simply initialize an `unsigned` instead of an int.
 
 ### Range based for loops
 

@@ -30,14 +30,14 @@ They're implemented as an array of characters, so you can you array-style subscr
 Terminating null-values are automatically added even if you don't speicify them.
 C-style strings are frequently referred to as "zero" or "null-terminated" strings. 
 
-Refresher - we've been using string literals so for. A string literal is a series of characters wrapped in double quotes. String literals are constants.
+Refresher - we've been using string literals so far. A string literal is a series of characters wrapped in double quotes. String literals are constants.
 
 To create a mutable c-style string, you would need to specify that string as an array;  
 ```c++
 char my_name[] {"keith"};
 ```
 
-Note that with the above char array, it will only allocate enough space in memory for `6` characters with the 6th character a null. If we want to be able to add to a string, we need to initialize in such a way that there' si sextra space:  
+Note that with the above char array, it will only allocate enough space in memory for `6` characters with the 6th character a null. If we want to be able to add to a string, we need to initialize in such a way that there's extra space:  
 ```c++
 char my_name[8] {"keith"};
 ```
@@ -104,7 +104,7 @@ strcmp(string1, string2); // to check whether these are identical
 
 ```c++
 char some_string[50] {};
-cin.getline(some_string, 50); // This will take the first 50 characters of input
+cin.getline(some_string, 50); // This will take the first 50 characters of input that isn't terminated by a \n
 ```
 
 ## c++ Stings

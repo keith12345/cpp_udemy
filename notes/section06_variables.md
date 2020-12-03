@@ -6,14 +6,14 @@ Two main properties are **type** and **value**
 
 ## Declaring and Initializing Variable
 There are built-in variable types:
-```
+```c++
 int age;
 double;
 string name;
 ```
 
 But because c++ is object oriented, we can do stuff like:
-```
+```c++
 Account keiths_accounts;
 Person keith;
 ```
@@ -86,7 +86,7 @@ signed **int** - 16 bit integer
 signed **long** int - 32 bit integer
 signed **long long** int - 64 bit integer
 **unsigned short** int - 16 bits
-**unsigned int** - 16 bits
+**unsigned** int - 16 bits
 **unsigned long** - 32 bits
 **unsigned long long** - 64 bit
 

@@ -37,7 +37,7 @@ As mentioned earlier, `::` is called the scope resolution operator. It allows us
 
 We can specify that we want to use a particular namespace using a namespace directive:
 
-```
+```c++
 using namespace std;
 ```
 
