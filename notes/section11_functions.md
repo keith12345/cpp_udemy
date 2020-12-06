@@ -311,3 +311,152 @@ void mutate_string(string &s, int size) {
 // xextx
 
 ```
+
+## Scope
+
+Local scope and block scope
+
+function parameters have block scope. Only visible within the block ({}) where they're declared. Local variables are only available in the scope where they're declared. You can see outside of a scope but not into another scope.
+
+### Static local variables
+
+There's one exception to the above and that's static local variables: 
+```c++
+static int n {10};
+```
+
+Preserved between function calls, only initialized in the first call.
+
+```c++
+#include <iostream>
+using namespace std;
+
+void print() {
+    static int n {100};
+    cout << n << endl;
+    n += 1;
+    cout << n << endl;
+}
+
+int main() {
+    cout << "Round 1" << endl;
+    print();
+    cout << "Round 2" << endl;
+    print();
+}
+
+// Round 1
+// 100
+// 101
+// Round 2
+// 101
+// 102
+
+```
+
+### Global Scope
+
+Anything declared outside of a function or class has global scope and can be accessed anywhere. Global constants are 
+okay but people try to avoid global variables.
+
+Note that you don't need a reason for there to be another level of local scope:
+
+```c++
+int main() {
+    some scope
+    {
+        nested scope
+        {
+            Deeper nested scope
+        }
+    }
+}
+```
+
+There doesn't need to be a loop or an if statement or anything like that to have additional scope.
+
+## How do function calls work
+
+Functions use the "function call stack":
+* analogous to s stack of books
+* LIFO - Last In First Out
+* push and pop (Stack terminology... not sure how it's relevant to the function stack)
+
+Stack Frame of Activation Record
+* Basically a collection of information that represents an active function
+    * This is where parameters, local variables, return address are stored
+    * Each time a function is called, an activation record is created and it's pushed onto the call stack. when the 
+    function terminates we pop the activation record off of the call stack and now the function that called that 
+    function is at the top of the call stack.
+* Function must return control to function that called it
+* Each time a function is called we create a new activation record and push in on stack
+* Wehn a function terminates we pop the activation record and return
+* Local variables and function parameters are allocated on the stack
+* The stack is finite in size. Too many function calls will result in you running out of stack space (stackoverflow)
+
+## Memory Allocation
+
+```
+  --------------------------------
+  |                              |
+  |       Heap - Free Space      |
+  |       or Free store          |
+  |                              |
+  |                              |
+  |                              |
+  |------------------------------|
+  |                              |
+  |         Stack - Where        |
+  |     Functions are called     |
+  |                              |
+  |------------------------------|
+  |        Stack Variables       |
+  |------------------------------|
+  |                              |
+  |          Code Area           |
+  |                              |
+  --------------------------------
+```
+
+When a function is called, space is pushed onto the stack for the return value of that function. 
+Space is also pushed onto the stack for the function parameters and the return address of the function. 
+Control is then transferred to the function that was called (this is done via an assembly language instruction called jump).
+
+The function that was called then pushes the address of the previous activation record. 
+Not totally sure what this means but it's basically moving a stack pointer so that you know where the top of the stack is. 
+It also pushes any register values that need to be restored (not really sure what this means).
+
+When the code is finished you restore the register values so that main is where it was before. 
+You restore the previous activation record so that main is where it was before.
+You store the result of that function in the address allocated when the function was called. 
+And control is transferred back to main. 
+
+Main also pops the parameters and the return values from the stack 
+
+## Inline functions
+
+Sometimes it can actually be more effort for the compiler to perform all of the steps required to perform a function 
+than it actually takes to perform the function. 
+One solution to this is inline functions. You might not want to do this when you're called a function many times 
+which will eventually result in large binaries. Compilers now generally know when to and when not in line a function.
+
+```c++
+inline int add_nums(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    int result {0};
+    result = add_nums(100, 200);
+    return 0
+}
+```
+
+Inline functions are generally declared in header files because they must be available to every source file that uses 
+it. (Not sure if there's some significance to this that I'm missing... seems obvious).
+
+## Recursion
+
+Don't forget about your "base case". Your base is what allows to you exit from a function so you don't recurse infinitely.
+
+Recursion technically exists when you have two activation records on the same stack for the same function (they don't need to be sequential).
