@@ -6,4 +6,5 @@ int main() {
     p = new int;
     *p = 10;
     cout << *p << endl;
+    delete p;
 }

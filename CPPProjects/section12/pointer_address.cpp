@@ -21,4 +21,15 @@ int main() {
     cout << "The value of p " << p << endl;
     cout << boolalpha;
     cout << "p == &n " << (p == &n) << " and *p == n " << (*p == n) << endl;
+
+    cout << "address of a pointer: " << &p << endl;
+    int* q {nullptr};
+    q = p;
+    cout << "p and q: " << p << " " << q << endl;
+    int** r {nullptr};
+    r = &p;
+    cout << "r " << r << endl;
+    cout << "de-reference *r " << *r << endl;
+    cout << "Double de-reference **r " << **r << endl;
+
 }
