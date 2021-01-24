@@ -14,6 +14,8 @@ class Money_Market_Account: public Savings_Account {
         Money_Market_Account& operator=(const Money_Market_Account& source);
         Money_Market_Account& operator=(Money_Market_Account&& source);
         ~Money_Market_Account();
+        bool withdraw(double& amount);
+        bool withdraw(double&& amount);
         void set_withdraws_per_month(const int&& withdraws_per_month);
         void show_withdraws_this_month();
         void show_withdraws_per_month();

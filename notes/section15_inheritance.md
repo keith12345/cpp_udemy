@@ -199,3 +199,94 @@ Derived::Derived(int x)
 Due to "is-a" relationships, we can pass a derived class to a base class constructor. A base class 
 constructor takes a base class object as its argument, but because a derived class _is_ a base, it can be passed.  
 The compiler uses something called "slicing" where it _slices_ out the base part of the derived object. 
+
+Let's say you have a class with an `int` and then derived class wtih an `int` doubled.  
+The derived class would have two attributes.. both the `int` and the `int` doubled.  
+To construct the derived class you can actually just call the base class constructor in the derived class constructor:  
+```c++
+Derived(int x) 
+    : Base {x}, doubled_value {x * 2} {
+        cout << "We've constructed the derived class" << endl;
+    }
+
+// using heap memory
+
+Derived(int x) 
+    : Base {x}, doubled_value {nullptr} {
+        doubled_value = new int;
+        doubled_value = x * 2;
+    }
+```
+
+## Redefining base class methods
+
+* Derived class can directly invoke base class methods
+* Derived class can **override** or **redfine** base class methods. 
+* Very powerful in the context of polymorphism
+
+To override, you simply provide a method with the same name and signature as the method in the base class.  
+You can even call a base class method in the derived class method:
+
+```c++
+class Account {
+    public:
+        void deposit(double amount) {
+            balance += amount;
+        }
+};
+
+class Savings_Account: Public Account {
+    public:
+        void deposit(double amount) {
+            amount += some_interest;
+            Account::deposit(amount);
+        }
+};
+```
+
+### Static binding of method calls
+
+* Binding of which method to use is done at compile time
+    * Default binding for c++ is static
+    * Derived class objects willuse Derived::deposit
+    * But, we can explicitly invoke `Base::deposit` from `Derived::deposit`
+* Dynamic binding allows for bindings to take place at run-time instead of compile-time
+
+
+```c++
+Base b;
+b.deposit(1000.0);      // Base::deposit
+
+Derived d;
+d.deposit(1000.0);      // Derived::deposit
+
+Base* b2 = new Derived();   // we can do this because a derived is a base
+b2->deposit(1000.0);    // Base::deposit ????!!!!
+```
+
+Because the pointer is pointing to a base class, it calls the method of the base class... but what if you actually want
+to call the method of the derived class?? (Next section).
+
+## Multiple Inheritance:
+
+* A derived class that inherits from two ro more base blasses at the same time
+* the base classes may belong to unrelated class heirarchies 
+    * i.e. The two different classes may or may not share a common ancestor
+* the derived class will have an "is-a" relationship with two different classes 
+
+
+Simply provide a comma separated list of the classes to create:
+
+```c++
+class Department_Chair:
+    public Faculty, public Administrator {
+        ...
+};
+```
+
+* Can be powerful
+* easily misused
+* can be very complex
+
+
+

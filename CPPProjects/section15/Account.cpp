@@ -34,7 +34,6 @@ Account& Account::operator=(const Account& source) {
     if (this == &source) {
         return *this;
     }
-    delete this->balance;
     *this->balance = *source.balance;
     return *this;
 }
@@ -63,23 +62,35 @@ void Account::deposit(double&& amount) {
     std::cout << "Your new balance is " << *this->balance << std::endl;
 }
 
-void Account::withdraw(double& amount) {
-    std::cout << "You have " << this->get_balance() << " and are withdrawing " << amount << std::endl;
-    *this->balance -= amount;
-    if (*this->balance < 0) {
-        std::cout << "WARNING: Negative Balance" << std::endl;
+bool Account::withdraw(double& amount) {
+    if (amount < 0) {
+        std::cout << "Invalid amount; Please enter amount greater than 0" << std::endl;
+        return false;
     } else {
-        std::cout << "Your new balance is " << *this->balance << std::endl;
+        std::cout << "You have " << this->get_balance() << " and are withdrawing " << amount << std::endl;
+        *this->balance -= amount;
+        if (*this->balance < 0) {
+            std::cout << "WARNING: Negative Balance" << std::endl;
+        } else {
+            std::cout << "Your new balance is " << *this->balance << std::endl;
+        }
+        return true;
     }
 }
 
-void Account::withdraw(double&& amount) {
-    std::cout << "You have " << this->get_balance() << " and are withdrawing " << amount << std::endl;
-    *this->balance -= amount;
-    if (*this->balance < 0) {
-        std::cout << "WARNING: Negative Balance" << std::endl;
+bool Account::withdraw(double&& amount) {
+    if (amount < 0) {
+        std::cout << "Invalid amount; Please enter amount greater than 0" << std::endl;
+        return false;
     } else {
-        std::cout << "Your new balance is " << *this->balance << std::endl;
+        std::cout << "You have " << this->get_balance() << " and are withdrawing " << amount << std::endl;
+        *this->balance -= amount;
+        if (*this->balance < 0) {
+            std::cout << "WARNING: Negative Balance" << std::endl;
+        } else {
+            std::cout << "Your new balance is " << *this->balance << std::endl;
+        }
+        return true;
     }
 }
 

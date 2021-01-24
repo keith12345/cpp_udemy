@@ -33,6 +33,7 @@ int main() {
     Keith_Test->show_account_breakdown();
     Keith_MMA->show_account_breakdown();
     Money_Market_Account Another_Test = Money_Market_Account(0.03, 6);
+    Keith_Test->withdraw(1000);
     //Money_Market_Account mma = Money_Market_Account(0.05, 6);
     //Money_Market_Account mma2 = mma;
 }

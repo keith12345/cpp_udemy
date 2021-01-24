@@ -85,6 +85,20 @@ void Money_Market_Account::show_account_breakdown() {
     std::cout << "\tYou withdraws per month: " << *this->withdraws_per_month << std::endl;
 }
 
+bool Money_Market_Account::withdraw(double& amount) {
+    amount *= 1.05;
+    *this->withdraws_this_month += 1;
+    std::cout << "You've make " << *this->withdraws_this_month << " withdraw(s) this month" << std::endl;
+    return Account::withdraw(amount);
+}
+
+
+bool Money_Market_Account::withdraw(double&& amount) {
+    amount *= 1.05;
+    *this->withdraws_this_month += 1;
+    std::cout << "You've make " << *this->withdraws_this_month << " withdraw(s) this month" << std::endl;
+    return Account::withdraw(amount);
+}
 
 //Money_Market_Account::Money_Market_Account(double&& ir)
     //: interest_rate {nullptr} {

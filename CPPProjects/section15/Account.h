@@ -8,8 +8,8 @@ class Account {
         double get_balance();
         void deposit(double& amount);
         void deposit(double&& amount);
-        void withdraw(double& amount);
-        void withdraw(double&& amount);
+        bool withdraw(double& amount);
+        bool withdraw(double&& amount);
         Account& operator=(const Account& source);
         Account& operator=(Account&& source);
         Account();
