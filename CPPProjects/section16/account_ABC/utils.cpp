@@ -1,4 +1,4 @@
-#include <iostream>
+#include <ostream>
 #include "Account.h"
 
 std::ostream& operator<<(std::ostream& os, const Account& acc) {

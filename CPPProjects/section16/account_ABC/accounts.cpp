@@ -7,7 +7,7 @@ int main() {
     Checking_Account acc = Checking_Account();
     std::cout << acc << std::endl;
 
-    Checking_Account acc1 = Checking_Account("Account 1", 1000, 0.01);
+    Checking_Account acc1 = Checking_Account("Account 1", 1000);
     std::cout << acc1 << std::endl;
     acc1.deposit(-4000);
     acc1.withdraw(4000);

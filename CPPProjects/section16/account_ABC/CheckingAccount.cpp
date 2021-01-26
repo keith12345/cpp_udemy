@@ -1,20 +1,7 @@
 #include <iostream>
-#include <ostream>
 #include <string>
 #include "CheckingAccount.h"
 #include "utils.cpp"
-
-//Checking_Account::Checking_Account(const std::string& account_name, const double& balance, const double& interest_rate) {
-    //Checking_Account(std::move(account_name), std::move(balance), std::move(interest_rate));
-    //}
-//
-//Checking_Account::Checking_Account(std::string&& account_name, double&& balance, double&& interest_rate)
-    //: account_name {account_name}, balance {nullptr}, interest_rate {nullptr} {
-        //this->balance = new double;
-        //*this->balance = balance;
-        //this->interest_rate = new double;
-        //*this->interest_rate = interest_rate;
-    //}
 
 Checking_Account::Checking_Account(const std::string& account_name, const double& balance, const double& interest_rate)
     : account_name {account_name}, balance {nullptr}, interest_rate {nullptr} {
