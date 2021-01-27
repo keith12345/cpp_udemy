@@ -1,7 +1,14 @@
-#include <ostream>
+#include <iostream>
+#include <vector>
 #include "Account.h"
 
 std::ostream& operator<<(std::ostream& os, const Account& acc) {
     acc.print(os);
     return os;
+}
+
+inline void display_accounts(const std::vector<Account>& accs) {
+    for (const Account& acc: accs) {
+        std::cout << acc << std::endl;
+    }
 }
