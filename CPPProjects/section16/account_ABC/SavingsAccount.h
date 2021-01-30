@@ -3,6 +3,7 @@
 #include "CheckingAccount.h"
 
 class Savings_Account: public Checking_Account {
+        friend inline std::ostream& operator<<(std::ostream &os, const Account& acc);
     public:
         int* withdrawals_per_month;
         int* withdrawals_this_month;

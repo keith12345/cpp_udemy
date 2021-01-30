@@ -4,7 +4,7 @@
 
 Savings_Account::Savings_Account(const std::string& account_name, const double& balance, const double& interest_rate, const int& withdrawals_per_month)
     : Checking_Account(account_name, balance, interest_rate), withdrawals_per_month {nullptr}, withdrawals_this_month {nullptr} {
-        std::cout << "Calling Savings Account constructor for: " << account_name << std::endl;
+        std::cout << "Calling Savings Account Constructor for: " << account_name << std::endl;
         this->withdrawals_per_month = new int;
         *this->withdrawals_per_month = withdrawals_per_month;
         this->withdrawals_this_month = new int;
@@ -25,12 +25,12 @@ bool Savings_Account::withdraw(const double& amount) {
 
 void Savings_Account::print(std::ostream& os) const {
     Checking_Account::print(os);
-    os << "You have performed " << *this->withdrawals_this_month << " withdrawals this month" << std::endl;
-    os << "You have " << (*this->withdrawals_per_month - *this->withdrawals_this_month) << " remaining withdrawals this month." << std::endl;
+    os << "\tYou have performed " << *this->withdrawals_this_month << " withdrawals this month" << std::endl;
+    os << "\tYou have " << (*this->withdrawals_per_month - *this->withdrawals_this_month) << " remaining withdrawals this month." << std::endl;
 }
 
 Savings_Account::~Savings_Account() {
-    std::cout << "Calling Savings Account destructor for: " << this->account_name << std::endl;
+    std::cout << "Calling Savings Account Destructor for: " << this->account_name << std::endl;
     delete this->withdrawals_per_month;
     delete this->withdrawals_this_month;
 }

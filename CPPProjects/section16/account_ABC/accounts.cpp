@@ -14,6 +14,7 @@ int main() {
     acc1.withdraw(4000);
     acc1.update_interest_rate(0.02);
     acc1.deposit(2000);
+    std::cout << std::endl;
 
     std::string account_name = "Account 2";
     double account_balance = 2000.0;
@@ -23,16 +24,20 @@ int main() {
     double updated_interest_rate = 0.075;
     acc2.deposit(additional_deposit);
     acc2.update_interest_rate(updated_interest_rate);
+    std::cout << std::endl;
 
-    //Savings_Account sav_acc = Savings_Account("Keith's Savings Account", 2000);
-    //sav_acc.withdraw(35);
-    //sav_acc.withdraw(200);
+    Savings_Account sav_acc = Savings_Account("Keith's Savings Account", 2000);
+    sav_acc.withdraw(35);
+    sav_acc.withdraw(200);
+    sav_acc.deposit(1500);
+    std::cout << sav_acc << std::endl;
+    std::cout << std::endl;
 
-    std::vector<Account> accounts = std::vector<Account>();
-    accounts.push_back(acc);
-    //accounts.push_back(acc1);
-    //accounts.push_back(acc2);
-    //accounts.push_back(sav_acc);
-//
-    //display_accounts(accounts);
+    std::vector<Account*> accounts;
+    accounts.push_back(&acc);
+    accounts.push_back(&acc1);
+    accounts.push_back(&acc2);
+    accounts.push_back(&sav_acc);
+
+    display_accounts(accounts);
 }
