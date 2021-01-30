@@ -55,7 +55,7 @@ void Checking_Account::print(std::ostream& os) const {
 
 bool Checking_Account::update_interest_rate(const double& updated_interest_rate) {
     if (updated_interest_rate > 0) {
-        std::cout << "Updating interest rate from:" << *this->interest_rate << " to: " << updated_interest_rate << std::endl;
+        std::cout << "Updating interest rate from: " << *this->interest_rate << " to: " << updated_interest_rate << std::endl;
         *this->interest_rate = updated_interest_rate;
         return true;
     } else {

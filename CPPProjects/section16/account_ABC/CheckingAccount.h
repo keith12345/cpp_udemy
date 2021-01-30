@@ -6,7 +6,6 @@ class Checking_Account: public Account {
     public:
         std::string account_name;
     private:
-        friend inline std::ostream& operator<<(std::ostream &os, const Account& acc);
         double* balance;
         double* interest_rate;
     public:
