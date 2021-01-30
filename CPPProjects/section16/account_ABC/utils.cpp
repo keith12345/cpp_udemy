@@ -2,8 +2,8 @@
 #include <vector>
 #include "Account.h"
 
-std::ostream& operator<<(std::ostream& os, const Account& acc) {
-    acc.print(os);
+std::ostream& operator<<(std::ostream& os, const I_Printable& printable) {
+    printable.print(os);
     return os;
 }
 
