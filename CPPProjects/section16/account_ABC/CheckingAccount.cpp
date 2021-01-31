@@ -6,10 +6,8 @@
 Checking_Account::Checking_Account(const std::string& account_name, const double& balance, const double& interest_rate)
     : account_name {account_name}, balance {nullptr}, interest_rate {nullptr} {
         std::cout << "Calling Checking Account Constructor for: " << account_name << std::endl;
-        this->balance = new double;
-        *this->balance = balance;
-        this->interest_rate = new double;
-        *this->interest_rate = interest_rate;
+        this->balance = new double {balance};
+        this->interest_rate = new double {interest_rate};
     }
 
 
