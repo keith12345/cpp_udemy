@@ -1,0 +1,253 @@
+# Classes, Objects, and their Members
+
+## Classes and Objects
+
+Objects are created from classes. An object is an instantiation of a class(???).
+
+OOP has it roots in the 60  
+Meant to help model real-world scenarious in a more natural way.  
+* Studet register for course which is in a department  
+* Customer buy a product  
+
+
+Each of these things have attributes and perform actions. 
+
+Data attributes for a particular instance are typically referred to as the **state of the instance**.  
+The actions that can be performed are referred to as **behavior** and are performed with methods.  
+There are also nested classes and nested interfaces but that's later.  
+
+**Class members** can refer to both variable and methods. 
+
+```java
+class Student {
+    // variable declarations
+    int id;
+    String name;
+    string gender;
+
+    // method definitions
+    boolean updateProfile(String newName) {
+        name = newName;
+        return true;
+    }
+}
+```
+
+Test our one method:  
+```java
+class StudentTest {
+    public static void main(String[] args) {
+        // 1. creating a new student object called 's' using keyword 
+        // 'new' keyword. The type of the object is Student.
+        Student s = new Student();
+
+        // 2. Setting the student's state
+        s.id = 1000;
+        a.name = "joan";
+        s.gender = "male";
+
+        // 3. updating profile with correct name
+        s.updateProfile("john");
+    }
+}
+```
+The above is not using a constructor but constructors are the default way to initialize state for an object.
+
+## Absolute Java Basics
+
+First letter of class name has to be letter, underscore or **$** (no joke).  
+The remaining characters can be the above as well as numbers.  
+
+Don't use any reserved keywords!! 
+
+```java
+/*
+Jave has block
+quotes just
+like c++!!
+/*
+```
+
+## Variables
+
+**primitive variables** are basically variables that are as primitive as possible, like an `int` or a `char`... There
+are no number or character types that are more "primitive" than those. 
+
+Variables that hold objects are referred to as **object references**. 
+
+**Interfaces** are another type of object reference. 
+
+Note that you have create a Student object you need the keyword `new` like so:
+```java
+Student s = new Student();
+```
+but we didn't need that with a String type:
+```java
+String name = "keith";
+```
+More on this^^ later.
+
+**Literals** are just raw data:
+```java
+int id = 100;
+boolean flag = true;
+String name = "Keith";
+```
+
+When you define a variable and give it a value it is a **declaration statement**. 
+
+Note that assignment cannot take place within the body of a class, only declarations are allowed. Assignment it must be
+within a method. 
+
+## Primitive Types
+
+* `boolean`
+* numerical:
+    * Integer
+        * `byte`
+        * `short`
+        * `int`
+        * `long`
+    * Floating-point
+        * `float `
+        * `double`
+    * Character
+        * `char`
+        * Also considered a numeric type as it is stored as an unsigned `int`
+
+
+## Interger data type
+
+* byte
+    * 8 bits
+    * -2^7 -> 2^7-1
+    * -128 -> 127
+* short
+    * 16 bits
+    * -2^15 -> 2^15-1
+    * -32768 -> 32767
+* int
+    * 32 bits
+    * -2^31 -> 2^31-1
+* long
+    * 64 bits
+    * -2^63 -> 2^63-1
+
+
+Each number is -2^n -> 2^n-1 where "n" is the number of bits. The first bit indicates whether or not it's positive, zero
+is included as a positive number.  
+The left-most bit is frequently referred to as the **most significant bit**.
+
+The number of bits is the bit depth.
+
+The default value for all integers types the default value is 0. Note that local variables do not get any default value;
+and class variables get a default variable.
+
+Note that to assign to a `long` you actually need to indicate that that number is meant to be a long, you have to cast
+it.  
+```java
+long 2234567890; // compilation error
+long 2234567890L; // Needs to `L` to work
+```
+
+This is because there are two different types of **integer literals**. **Integer Literal** and **Longer Literal**.
+
+Note that, like python, java allows underscores to improve the readability of long numbers:  
+(Java 7+)  
+```java
+long 1_000_000_000_000L;
+```
+
+If you ever need to see the max and min values for a numerical type you can do:  
+```java
+int minValue = Integer.MIN_VALUE;
+int maxValue = Integer.MAX_VALUE;
+```
+
+Integer is a type of class that comes with the java library that's called a **Boxed Primitive** (or a **Wrapper 
+Type**?).   
+Every primitive type (all 8) has an associated box primitive type.
+
+Java supports **Hexadecimal notation**, which starts with `0x` (not case sensitive) and then the hexadecimal number, as
+well as binary, which starts with `ob` (also, not case sensitive) and then the binary number:
+```java
+int intHex = 0x0041; // 65, 16^0 * 1 + 16^1 * 4
+int intBinary = 0b01000001; // also 65, see below
+int intOctal  = 0101; // also 65, 8^0 * 1 + 8^1 * 0 + 8^2 * 1
+```
+
+The binary is a bit more compliated.  
+Each digit represents a different number that you add to the sum of the number:
+```
+ 128  64  32  16   8   4   2   1
+   0   1   0   0   0   0   0   1
+```
+You sum where there are ones and that gives you your number.
+
+You can also specify these types as `long` as well as use underscores to separate characters in the number.
+
+## Floating Point Numbers
+
+* `float`
+    * 32 bits
+    * -3.4E38 -> 3.4E38
+    * default 0.0f
+    * precision 6-7 decimal digits
+* `double`
+    * 64 bits
+    * -1.7E308 -> 1.7E308
+    * default 0.0d
+    * 15-16 decimal digits
+
+Note that `double`s can be significantly larger than `long` even though they have they same number of bits _and_ need to
+store additional precision.  
+This is achieved through the three parts that `double`s have:
+* 1 bit for sign
+* 11 bits for the exponent
+* 52 bits for the mantissa
+
+The **mantissa** is the number that will be multiplied by the nth power of 10:  
+mantissa * 10^n  
+or  
+mantissaEn  
+
+For the max value of a double:  
+mantissa = 1.7
+n = 308
+
+Generally even if you're not working with big numbers you actually probably want to stick with double because it has
+greater precision that float. 
+
+### Weird floating pointer weaknesses
+
+```java
+import java.math.BigDecimal;
+
+class FloatingPointWeaknesses {
+
+    public static void display() {
+        System.out.println(1 - 0.9);
+        System.out.println(0.1 + 0.02);
+
+        double price = 1000;
+        double discountPercent = 0.9;
+        double discountAmount = price * discountPercent;
+        System.out.println(price - discountAmount);
+        System.out.println(price * (1 - discountPercent));
+
+        BigDecimal first = new BigDecimal("0.1");
+        BigDecimal second = new BigDecimal("0.2");
+        System.out.println(first.add(second));
+    }
+
+    public static void main(String[] args) {
+        display();
+    }
+}
+// 0.09999999999999998
+// 0.12000000000000001
+// 100.0
+// 99.99999999999997
+```
+
+As you can see, it srews up money. The a specific class called BigDecimal that you should use.
