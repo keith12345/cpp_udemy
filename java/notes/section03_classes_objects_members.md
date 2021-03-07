@@ -116,7 +116,7 @@ within a method.
         * Also considered a numeric type as it is stored as an unsigned `int`
 
 
-## Interger data type
+## Integer data type
 
 * byte
     * 8 bits
@@ -251,3 +251,216 @@ class FloatingPointWeaknesses {
 ```
 
 As you can see, it srews up money. The a specific class called BigDecimal that you should use.
+
+## Char
+
+String is not a primitive type in Java. The closest thing to it is `char`.
+Needs single character and single quotes.
+
+Chars are stored as 16 bit unsigned integers.
+
+ASCII is basically only english characters. Unicode emcompasses 2**16 characters. All characters across all languages
+globally.  
+It does this by storing every character with a hexadecimal number called **code point**. That number maps to a
+hexadecimal value which is stored internally as an integer.  
+Java uses UTF-16 as its **encoding scheme**.
+
+You can assign chars using a **unicode escape sequence**.  
+e.g.:  
+```
+char c = 'B'; 
+char c = 66;
+char c = '\u0042'; // case sensitive 'u'
+// All the same thing ^^^
+// 0042 -> 0000 0000 0100 0010
+```
+
+It makes sense to use the unicode escape sequence if you're trying to use a character that you editor cannot display.
+
+## Bool
+
+Auto-initiliazed to `false`.  
+Note that bit-depth varies from one JVM to another. Could be 1,4, etc. 
+
+## Variable types
+
+There are two types of variables:
+* primitives
+* object references
+
+Role varies based on where it's declared, e.g. class level vs function level
+
+**Instance variables** hold state, they're called instance variables because they're related to the instance of a class.  
+
+**Local variables** are declared within a particular method.
+
+**Static variables** or class variables, which are specific to a class, (vs. specific to a particular instance of a
+class) apply to all instances of a particular type of class.  
+Note that static variables can actually be accessed directly through the class object and do not need to be accessed
+through an instance of that class.
+
+Another note is that instance and static variables are also referred to as **fields** or **attributes**. Attributes is
+likely the more common term between the two.
+
+## Casting
+
+Only possible with numeric to numberic (cannot cast boolean).  
+Casting can be both implicit or explicit.  
+
+**Widening** conversion is when you go to a **higher-order** type like `int` -> `long`.  
+**Narrowing** conversion is the opposite.
+
+implicit:
+```java
+int x = 65;
+long y = x
+float z = x
+```
+
+explicit:
+```java
+long x = 100;
+int y = (int) x;
+```
+
+The compiler does not now that at run-time that `x` will be compatible with `int` so you have to tell it explicitly.
+
+Note that there can actually be some loss of information with implicit casting but it's pretty rare.
+
+## Object References
+
+The following creates a student object where `s` is the object reference.  
+```java
+Student s = new Student();
+```
+
+The type of the variable is referred to as **reference type**.  
+With primitives, the type of variable is the **primitive type**.
+
+There are two categories of references types. References types, as mentioned as above, and **interfaces**. 
+
+The declaration of `Student s` tells the program to allocate space for a reference variable `s` that points to a student
+object. `new Student()` tells the program to allocate space for the actual student object.  Then the assignment operator
+assigns the memory address of the created object to the variable name.
+
+Objects are stored in a special chunk of memory by the JVM... the **heap**!  
+Bit-depth for different object references can actually vary from one JVM to another.  
+
+The **default value** for an object reference is `null` and is referred to as a **null reference**.
+
+Performing an operation on a null reference will give you a **NullPointerException**. 
+
+## Statements
+
+They end with semi-colons.  
+They are commands to be executed.  
+They change program state to some degree.  
+They are made of one or more expressions.
+
+Note on recognizing **expressions**, each expressions is ultimately evaluated to a single value at run-time.
+
+## Three types of statements
+
+* Declarations
+    * e.g. `int count = 25;`
+* Expression statements
+    * e.g. `count = 25;`, `getCount();`, `count++`
+    * Assignments, invocation, increment, respectively
+* Control flow statements
+    * if/then, case
+
+
+Only declarations can exist in the body of a class.  
+Think how python allows invocation when assigning in `__init__`... Java does not allow this.
+
+Note that while only declarations are allowed, there are many types of declarations:
+* Field declarations
+* Method declarations (this is just defining methods normally within the class)
+* Constructor declarations
+* Nested class & interface declarations
+* Instance and state initializers
+
+## Arrays
+
+**Arrays** are container objects that store a fixed number of values of a single type.
+
+Note that an array in java is actually an object while an array in c++ is simply a pointer.  
+
+Declaring arrays is somewhat similar to c++ with some key differences.  
+c++:
+```c++
+int scores[4];
+```
+For Java, both of the below work:
+```java
+int[] scores = new int[4];
+int scores[] = new int[4];
+```
+
+Like c++ you can also initialize with values but size _must_ be inferred in Java whereas it can be specified in c++:  
+c++:
+```c++
+int scores[4] {90, 80,97, 96};
+```
+For Java, both of the below work:
+```java
+int[] scores = new int[] {90, 80,97, 96};
+int scores[] = new int[] {90, 80,97, 96};
+```
+Or you can just do c++-like initialization:
+```java
+int[] scores = {90, 80,97, 96};
+int scores[] = {90, 80,97, 96};
+```
+
+Note that the syntax in the above example can only be used in a declaration statement. You cannot use it to re-initalize
+an array. The below examples will actually throw errors:
+```java
+int[] scores = {90, 80,97, 96};
+scores = {1, 2, 3, 4};
+```
+
+Arrays in java do not have a length method but they do have a length attribute:
+```java
+arr.length(); // does not work
+arr.length; // works
+```
+
+This stuff about c++ isn't really true... Syntax is the same as java when creating objects on the heap. The other way of
+doing things (basically, without `new`) creates the array on the stack.  
+With Java, you have no choice but to create it on the heap (I think... even when you use the c++ stack syntax).
+
+## 2-d arrays
+
+```java
+int[][] myArray = new int[4][2]; // int[n rows][n cols]
+```
+Java implements this as a single 4-element array, each element in the array points to a 2-element array.
+
+Basically, the type of the array is an array of int arrays. It is a one-dimensional array where each element points to
+another array.
+
+Note that the number of columns does not need to be consistent from row to row:
+```java
+int[][] myArray = new int[2][];
+myArray[0] = new int[5];
+myArray[1] = new int[2];
+```
+
+This is convenient when storing thins like symmetric matrices:  
+```
+|  7 | -2 |  6 |  2 |         
+| -2 |  3 | 20 | 11 |         
+|  6 | 20 |  9 |  5 |         
+|  2 | 11 |  5 | -4 |         
+---------------------
+```
+
+Note that the length attribute can also be used on a 2-d array but will only return the number of rows. 
+
+
+
+
+
+
+
