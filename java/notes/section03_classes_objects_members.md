@@ -449,6 +449,7 @@ myArray[1] = new int[2];
 
 This is convenient when storing thins like symmetric matrices:  
 ```
+---------------------
 |  7 | -2 |  6 |  2 |         
 | -2 |  3 | 20 | 11 |         
 |  6 | 20 |  9 |  5 |         
@@ -458,9 +459,161 @@ This is convenient when storing thins like symmetric matrices:
 
 Note that the length attribute can also be used on a 2-d array but will only return the number of rows. 
 
+## Methods
+
+Objects have both **state** and **behavior**. State is object attributes/variable while behavior is the methods that one can call
+off of an object. 
+
+Note that the return type is not part of a method signature, just the method name and parameters.
+
+Nit-picky terminology....  
+When we're talking about a method definition, we refer to the input variables as **parameters** or **formal parameters**.  
+In terms of method-invocation, when we call a method, we call them **arguments** or **actual parameters**.   
+**Parameters** and **arguments** are the more common names.  
+Think: a method has parameters, you pass it arguments.
+
+Note that when calling a method that accepts a list as an argument.. just look:  
+```java
+int a = someMethod({1, 2}); // won't work
+int a = someMethod(new int[] {1, 2}); // Would need to do this
+```
+
+## Method Types
+
+### Instance Methods
+
+**Instance methods** are methods of an instance of a class.  
+We use the dot operator on an object reference to access instance methods of the object.  
+
+An absence of the static keyword declaring a method as a **static methods** implies that the method is an instance
+method. Static methods do not have any impact on object state. They have access to neither methods no variables from
+within the class. This means that you cannot invoke an instance method from the same class. 
+
+If they can't access other methods or variables, then what's their point? They are **utility methods**, meaning that
+they typically take arguments as input and generate some sort of output. That said, static methods _can_ access static
+variables as they are not object-specific. (Again, **static variables** are variables that are shared among all objects
+of the same class). 
+
+Static methods can directly access _other static methods_ from the same class. 
+
+The main method is an example of a static method. As a result of this fact, `main` can only directly access other static
+methods. It cannot access instance methods directly as instance methods _must_ be accessed through an instance of a
+class. 
+
+A static method in Java is as close to a function in python as you can get.
+
+## How data is passed to methods in java
+
+```java
+void updateId(int newId) {
+    newId += 1;
+}
+
+int id = 1000;
+updateId(id);
+System.out.println(id); // will print 1000
 
 
+void updateId(Student s) {
+    s.id += 1;
+}
 
+Student s = new Student();
+s.id = 1000;
+updateId(s);
+System.out.println(s.id); // prints 1001
+```
 
+Literals/primites are ALWAYS passed by value. Objects are ALWAYS passed by object reference (which is still
+technically pass-by-value). 
 
+**Primitives** have 3 components, **logical name**, **memory address**, and a **value**. The logical name is simply the
+name used to refer to variable in source code. The compiler converts logical names to memory addresses. 
+
+## Method Overloading
+
+The function signature must be different... Remember which part the function signature is. 
+
+## Methods: varargs
+
+Before Java 5, a method could only be invoked with a fixed number of args.  
+
+Java 5 added **varargs**, which refers to variable length arguments. 
+
+The varargs must be the last (or only) parameter of the method. 
+
+```java
+void foo(boolean flag, int... items) { ...
+```
+
+An array of any size of a series of comma-separated arguments can be passed:
+```java
+foo(true, new int[] {1, 2, 3});
+foo(true, 1, 2, 3);
+```
+
+If the args are passed as comma-separated-values they are converted to an array. 
+
+Why not just accept an array as an argument like:
+```java
+void foo(boolean flag, int[] items);
+```
+Varargs can simplify things a bit:
+```java
+// this
+foo(true, 1, 2, 3);
+// is easier than
+foo(true, new int[] {1, 2, 3});
+// and this
+foo(ture);
+// is easier than
+foo(true, null);
+// or
+foo(true, new int[] {});
+```
+
+`printf` is an example of an elegant function implemented using varargs:
+
+```java
+System.oout.printf("DOB: %d/%d/%d", 1, 1 1991);
+```
+
+Note that in the `main` function you can actually sub the array parameter with a varargs parameter:  
+```java
+// from
+public static void main(String[] args) {...
+// to
+public static void main(String... args) {...
+```
+
+## Constructors
+
+The purpose of a **constructor** is to initialize the state of an object. 
+
+Just like c++, if you don't make your own constructor, the compiler will make one for you with no parameters. 
+
+Constructors have the same name as a class; parameters are optional. Constructors do not have return types.
+
+**no-args constructor**. 
+
+Note that if you create a constructor that takes args, java will not automatically create a no-args constructor. 
+
+Note that return statements are occassionally used in constructors:
+```java
+class Student {
+
+    Student(int id) {
+        if (someCondition) {
+            ...
+            return;
+        }
+        // reachable code
+    }
+}
+```
+
+You might do this if you only want part of the constructor to execute if some condition is not met. 
+
+Note that when overloading constructors you can use `this()` to access other constructors. The `this()` statement must
+be the first statment and it can only appear once in the overloaded constructor. 
 

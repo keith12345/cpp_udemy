@@ -1,6 +1,7 @@
 class Student {
-    static int computeCount = 0;
+    static int idCount = 0;
     int baseId = 1000;
+    int id;
     String name;
     String gender;
     int age;
@@ -12,42 +13,56 @@ class Student {
     boolean international;
     double tuitionFees = 12000.0, internationalFees = 5000.0;
 
-    void compute() {
-        computeCount += 1;
-        int id = baseId + computeCount;
+    Student() {
+        Student.idCount += 1;
+        this.id = baseId + idCount;
+    }
 
+    Student(String name, String gender, int age, long phone, double gpa, char degree, int... scores) {
+        // non-international student constructor. 'this' can only appear once and must be the first statement
+        this(name, gender, age, phone, gpa, degree, false, scores);
+    }
+
+    Student(String name, String gender, int age, long phone, double gpa, char degree, boolean international, int... scores) {
+        idCount += 1;
+        id = baseId + idCount;
+        this.name = name;
+        this.gender = gender;
+        this.age = age;
+        this.phone = phone;
+        this.gpa = gpa;
+        this.degree = degree;
+        this.international = international;
         if (international) {
-            tuitionFees += internationalFees;
+            this.tuitionFees += internationalFees;
         }
+        this.scores = scores;
+    }
 
+    void display() {
         System.out.println("\nid: " + id);
         System.out.println("age: " + age);
         System.out.println("name: " + name);
         System.out.println("gender: " + gender);
         System.out.println("phone: " + phone);
         System.out.println("tuitionFees: " + tuitionFees);
-        System.out.println("computeCount: " + computeCount);
         System.out.print("Scores: ");
-        for (int score: scores) {
-            System.out.print(score + " ");
+        if (scores != null) {
+            for (int score: scores) {
+                System.out.print(score + " ");
+            }
+            System.out.println();
+            System.out.println("Num Exams: " + scores.length);
+        } else {
+            System.out.println("No exams taken");
         }
-        System.out.println();
-        System.out.println("Num Exams: " + scores.length);
     }
 
     public static void main(String[] args) {
-        Student student1 = new Student();
-        student1.name = "John";
-        student1.gender = "Male";
-        student1.age = 18;
-        student1.phone = 223_456_7890L;
-        student1.gpa = 3.8;
-        student1.degree = 'B';
-        student1.international = false;
-        student1.scores = new int[] {90, 98, 87};
-        student1.scores[2] = 92;
-        student1.compute();
-
-        System.out.println("Student.computeCount: " + Student.computeCount);
+        Student student1 = new Student("John", "Male", 18, 223_456_7890L, 3.8, 'B', false, new int[] {1, 2, 3});
+        student1.display();
+        Student student2 = new Student();
+        student2.display();
+        System.out.println("Student.idCount: " + Student.idCount);
     }
 }

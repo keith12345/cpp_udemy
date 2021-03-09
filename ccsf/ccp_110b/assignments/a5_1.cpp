@@ -178,7 +178,7 @@ void swap(int* a, int* b) {
    #13:  x is: 0 and y is: 99
    #17:  The address of the first element is 0x7fffd19eacd0
    #18:  The address of the second element is 0x7fffd19eacd4
-   #20:  The first element in a[] is 0 and the second element in a[] is 99
+   #20:  The first element in a[] is 99 and the second element in a[] is 0
    #22:  Now, x contains: 99 and y contains: 0
    #23:  Now, a[0] contains: 0 and a[1] contains: 99
  */
