@@ -617,3 +617,56 @@ You might do this if you only want part of the constructor to execute if some co
 Note that when overloading constructors you can use `this()` to access other constructors. The `this()` statement must
 be the first statment and it can only appear once in the overloaded constructor. 
 
+## Constructor Overloading 
+
+When creating constructors you might want different construtors so that the constructor can take a varying number of
+arguments and handle those circumstances in different ways.  
+To do this, you can use a **primary constructor**, which typically takes the greatest number of arguments and will be
+called be other constructors that receive fewer arguments.
+
+## this in objects
+
+if in a constructor you have:
+```java
+String name;
+
+Student(String name) {
+    name = name;
+}
+```
+Name won't actually be assigned.  
+You need to use the `this` reserved keyword so that java know to use the object attribute version of the variable name.
+
+```java
+String name;
+
+Student(String name) {
+    this.name = name;
+}
+```
+
+When local variables have the same name as instance or static variables, it is said that they are **hiding** or
+**shadowing** the instance variables. 
+
+Note the different between a **this-reference** and a **this-invocation** is that a this-reference allows you to access
+an attribute of an instance using the dot-operator while a this-invocation allows you to call the constructor of an
+object using parantheses. (You can actually access methods using a this-reference but they should never be hidden so
+there isn't really a reason to do so).
+
+## Reinitializing Object References
+
+Note that if you make a change to a file that another file uses, the compiler will look at the timestamp for that file
+and know to re-compile it.
+
+When assigning one object to another in java you are consequently assigning both object to the same object reference.
+They will both have the same access to that object. 
+
+It is possible to **orphan** or **abandon** in java because we point to objects using object references.
+```java
+Student s = new Student("Sam");
+Student s2 = new Student("James");
+s = s2;
+```
+Now both `s` and `s2` to "James" and no one points to "Sam", leaving "Sam" orphaned.
+
+That memory needs to be reclaimed which is something that the garbage collector handles. 

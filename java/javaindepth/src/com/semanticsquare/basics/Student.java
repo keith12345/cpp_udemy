@@ -19,7 +19,8 @@ class Student {
     }
 
     Student(String name, String gender, int age, long phone, double gpa, char degree, int... scores) {
-        // non-international student constructor. 'this' can only appear once and must be the first statement
+        // non-international student constructor. 'this' can only appear once
+        // when calling another constructor and must be the first statement
         this(name, gender, age, phone, gpa, degree, false, scores);
     }
 
@@ -39,6 +40,12 @@ class Student {
         this.scores = scores;
     }
 
+    boolean updateName(String name) {
+        System.out.printf("Updating name of Student %d from %s to %s.\n", this.id, this.name, name);
+        this.name = name;
+        return true;
+    }
+
     void display() {
         System.out.println("\nid: " + id);
         System.out.println("age: " + age);
@@ -56,13 +63,5 @@ class Student {
         } else {
             System.out.println("No exams taken");
         }
-    }
-
-    public static void main(String[] args) {
-        Student student1 = new Student("John", "Male", 18, 223_456_7890L, 3.8, 'B', false, new int[] {1, 2, 3});
-        student1.display();
-        Student student2 = new Student();
-        student2.display();
-        System.out.println("Student.idCount: " + Student.idCount);
     }
 }
