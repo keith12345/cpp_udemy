@@ -1,4 +1,7 @@
-class Student {
+package com.semanticsquare.basics;
+
+
+public class Student {
     static int idCount = 0;
     int baseId = 1000;
     int id;
@@ -13,18 +16,18 @@ class Student {
     boolean international;
     double tuitionFees = 12000.0, internationalFees = 5000.0;
 
-    Student() {
+    public Student() {
         Student.idCount += 1;
         this.id = baseId + idCount;
     }
 
-    Student(String name, String gender, int age, long phone, double gpa, char degree, int... scores) {
+    public Student(String name, String gender, int age, long phone, double gpa, char degree, int... scores) {
         // non-international student constructor. 'this' can only appear once
         // when calling another constructor and must be the first statement
         this(name, gender, age, phone, gpa, degree, false, scores);
     }
 
-    Student(String name, String gender, int age, long phone, double gpa, char degree, boolean international, int... scores) {
+    public Student(String name, String gender, int age, long phone, double gpa, char degree, boolean international, int... scores) {
         idCount += 1;
         id = baseId + idCount;
         this.name = name;
@@ -46,7 +49,7 @@ class Student {
         return true;
     }
 
-    void display() {
+    public void display() {
         System.out.println("\nid: " + id);
         System.out.println("age: " + age);
         System.out.println("name: " + name);
@@ -63,5 +66,10 @@ class Student {
         } else {
             System.out.println("No exams taken");
         }
+    }
+
+    public static void main(String[] args) {
+        Student s = new Student();
+        s.display();
     }
 }

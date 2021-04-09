@@ -132,11 +132,13 @@ switch (month) {
 ```
 
 The only restriction on switch statements is that it must evaluate to an integer, 
-string, or enum.
+string, or enum (_not_ `long`).
 * byte
 * short
 * char
 * int
+
+**OR** a `String` as of Java 7.
 
 **Boxed primitives** or **wrapper classes** are also allowed. 
 * byte -> Byte
@@ -154,4 +156,116 @@ Some good-to-knows:
 * value must be unique
 * cannot be null
 
+
+## When to use a switch
+
+* readability
+* intent
+    * Can help indicate when only a single variable is important
+* Speed
+    * faster due to single condition and constant case labels
+    * given `n` conditions, `if` time complexity up to `O(n)`, switch is always `O(1)` (constant time)
+        * When n conditions > 100, `if` -> `switch` no longer considered a micro-optimization
+
+## Ternary
+
+short if/else where the if/else each have only one expression
+
+```java
+int x = 10;
+int x = 7;
+int min = (x < y) ? x : y;
+```
+
+Generally used for readability.
+
+```java
+String greeting = "Hello " + (user.isMale() ? "Mr. " : "Ms. ") + user.name();
+```
+
+There are used a lot in logs for ease. 
+
+The ternary operator is an expression, but it cannot be expressed as an expression statement.  
+(post/pre-increment are expression statements).
+
+What this means in effect is that you can't do:
+```java
+(boolean-expression) ? true-expr ; false-expr;
+```
+
+It needs to be part of some assignment statement or a method invocation.  
+
+## For loops
+
+All of the rules are just like c++, optional/multiple declarations, checks, increments etc.
+
+You can actually do some fancy stuff with this multiple declarations. Here's reversing a list:  
+```java
+int[] intArray = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+for (int i = 0, j = intArray.length-1, middle = intArray.length >>> 1; i < middle; i++, j--) {
+    int temp = intArray[i];
+    intArray[i] = intArray[j];
+    intArray[j] = temp;
+}
+```
+
+## for each
+
+* Cleaner syntax
+* no performance penalty (could actually be better for arrays)
+* eliminates some opportunity for errors (mostly through copy/paste)
+* preferred for nested iterations
+
+Maybe not readable... Just remember that everything in the condition expression gets evaluated with each iteration. 
+
+```java
+int[] die1 = {1, 2, 3, 4, 5, 6};
+int[] die2 = {1, 2, 3, 4, 5, 6};
+
+for (int i = 0; i < die1.length; i++} {
+    for (int j = 0; j < die2.length; j++} {
+        System.out.println(die1[i] + " " + die2[j]);
+    }
+}
+
+for (int i : die1) {
+    for (int j : die2) {
+        System.out.println(i + " " + j);
+    }
+}
+```
+
+When to use a traditional `for`?
+* Need the index
+* Need to transform the array 
+* Parallel (multiple array) iteration
+* backward iteration
+
+## Breaks statements
+
+Break exits the immediately enclosing loop of switch statement. But what if you want to exit an enclosing switch
+statement or loop? For that you'd need to use a **labeled break**.  
+To do the, the code block for which you break needs to be labeled. Labels are any valid java identifiers. 
+
+```java
+outermost: for (int i = 0; i < 10; i++) {
+   for (int j = 0; j < 10; j++) {
+       if (i == 5 && j == 5) {
+           break outermost;
+       }
+   }
+}
+```
+you can do it inside any scope:
+```java
+someLabel: {
+    break someLabel;
+}
+```
+
+## Recursion
+
+Whenever a program is invoked in java, it gets memory allocated on the **stack**. Whenever a program calls a method,
+that method gets memory allocated in a **stack frame**. A stack frame is in the stack.  
+Whenever a recursive method gets a **stack overflow** error it is actually the stack frame that has overflowed.
 
