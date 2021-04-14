@@ -60,6 +60,8 @@ post: Creates new Fraction object in a lowest terms of the specified numerator a
 
 */
 
+#include <ostream>
+#include <istream>
 
 
 
@@ -69,6 +71,7 @@ post: Creates new Fraction object in a lowest terms of the specified numerator a
 
 
 
+namespace cs_fraction {
 
 
 
@@ -76,21 +79,57 @@ post: Creates new Fraction object in a lowest terms of the specified numerator a
  * Declaration of Fraction object
  */
 class Fraction {
+    private:
+        int numerator;
+        int denominator;
+        void simplify();
+
     public:
+        Fraction(const int& numerator = 0, const int& denominator = 1);
+
         void print() const;
+        int getNumerator() const;
+        int getDenominator() const;
+
+        // Mathemtical expression methods
         Fraction multipliedBy(const Fraction& f) const;
         Fraction dividedBy(const Fraction& f) const;
         Fraction addedTo(const Fraction& f) const;
         Fraction subtract(const Fraction& f) const;
         bool isEqualTo(const Fraction& f) const;
 
-        Fraction();
-        Fraction(const int& numerator, const int& denominator);
-    private:
-        int numerator;
-        int denominator;
-        void simplify();
+        // Operators
+
+        // Mathemtical expression operators
+        friend Fraction operator*(const Fraction& leftObj, const Fraction& rightObj);
+        friend Fraction operator/(const Fraction& leftObj, const Fraction& rightObj);
+        friend Fraction operator+(const Fraction& leftObj, const Fraction& rightObj);
+        friend Fraction operator-(const Fraction& leftObj, const Fraction& rightObj);
+
+        // Compound mathematical operators
+        Fraction& operator*=(const Fraction& f);
+        Fraction& operator/=(const Fraction& f);
+        Fraction& operator+=(const Fraction& f);
+        Fraction& operator-=(const Fraction& f);
+
+        // Comparison operators
+        friend bool operator>(const Fraction& leftObj, const Fraction& rightObj);
+        friend bool operator<(const Fraction& leftObj, const Fraction& rightObj);
+        friend bool operator<=(const Fraction& leftObj, const Fraction& rightObj);
+        friend bool operator>=(const Fraction& leftObj, const Fraction& rightObj);
+        friend bool operator==(const Fraction& leftObj, const Fraction& rightOb);
+        friend bool operator!=(const Fraction& leftObj, const Fraction& rightOb);
+
+        //
+        Fraction& operator++();
+        Fraction operator++(int);
+        Fraction& operator--();
+        Fraction operator--(int);
+
+        friend std::ostream& operator<<(std::ostream& os, const Fraction& obj);
+        friend std::istream& operator>>(std::istream& is, Fraction& obj);
 };
 
+}
 
 #endif
