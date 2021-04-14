@@ -1,5 +1,8 @@
 # Packages, String, and Information Hiding Design Principle
 
+Note that people sometimes use the term **Encapsulation** and **Information Hiding** interchangeably. They are not the
+same thing.
+
 ## Java API
 
 The **Java API** is a library of well-tested classes.  
@@ -154,5 +157,388 @@ javac com/semanticsquare/basics/*.java
 ```
 
 In simplest terms, for a compiled package to accessed, the package root must be specified in the classpath.
+
+IDEs should handle all this shit on their own
+
+
+## Naming Packages
+
+The standard is basically the domain name in reverse.  
+There's nothing special about the nested folders other than the fact that it reduces possibility of naming conflicts.
+
+
+* lowercase alpha (rarely number)
+* short (fewer than 8 characters)
+* meaningful abbreviations, e.g. util for utilities
+* acronyms are generally okay, e.g. Abstract Window Toolkit
+* generally single-word
+* never start with java(x)
+
+
+## Access levels
+
+they help with:
+* meaningful organization
+* name scoping
+* _security_
+
+When no access level is specified it is referred to as simply **default access** level.
+
+Security refers to which packages are accessible outside of the package.  
+They may be sensitive or simply irrelevant in many use-cases.
+
+The default case is for classes to be private. If you only want a class accessible from inside a package then you just
+do: 
+```java
+class someClass { ...
+```
+
+### Accessibility for class members
+
+Inside the class:
+```java
+private int id = 4;
+```
+Inside the package: (Sometimes referred to as **package private**).
+```java
+int id = 4;
+```
+Inside package only + _any_ subclasses
+```java
+protected int id = 4;
+```
+Accessible anywhere (inside or outside the package):
+```java
+public int id = 4;
+```
+
+Private functions might be things like confirming that a list isn't empty as part of some other public method.
+
+## String
+
+Strings are in `java.lang.String;`.  
+Remember that when anything is in `java.lang` it is a fundamental part of java.  
+
+A **string literal** is a series of 0 or more characters enclosed in double quotes.
+
+Remember that **character literals** are single characters enclosed in single quotes.  
+
+Technically string literals are passed as **string objects**. Objects of the `java.lang.String`.  
+
+You can actually also make a string object from a **character array**.
+```java
+char[] cArray = {'h', 'e', 'l', 'l', 'o'};
+String s = new String(cArray);
+```
+create an empty object and then assigning something:
+```java
+String s = new String();
+String s = new String("hello");
+```
+but the recommended approach is to simply do:
+```java
+String s = "Hello";
+```
+
+Internally string objects store text as character arrays. 
+
+Java uses **UTF-16** for char which means that a string is a sequence of unicode characters. 
+
+String are technically **immutable**. 
+
+In short, they are immutable sequences of unicode characters.  
+
+Note that the only objects that can be assigned with literals are strings and box primitives. 
+e.g.:
+```java
+String s = "hello";
+Integer i = 42;
+```
+
+### memory
+
+all string created using string literals are stored in a special area of memory called **string pool**.  
+(This doesn't happen to string created using the `new` keyword.  
+
+If two string objects are created by the same string literal then they would both be represented by the same string in
+the string pool.  
+But if you create two objects of the same string using the `new` keyword then they will be represented by different
+string objects.  
+The string pool allows saving of memory. 
+
+## String Manipulation
+
+All basic stuff but one thing.
+
+We can use `java.util.String` to look at the difference between an instance method and a static method.  
+
+An **instance method** is any method that you call off of an object. Something like:  
+```java
+String s = "something  ";
+s = s.trim();
+```
+
+Remember that, in relation to python, a **static method** is basically a non-member function associated with an object.  
+These types of methods can be useful when there's a method that is not performed on an instance of a particular object
+but is related to it. e.g.:
+```java 
+String s = String.valueOf(1.3);
+```
+
+## 3rd party utilities
+
+* `apache.commons.lang` - 
+* google's `guava` string utility classes
+
+## String Pool and Interning
+
+The main benefit of using the string pool is to save on memory.
+
+* Strings (when created via string literal) 
+    * are in the **string pool** which is in heap memory. 
+        * There is only _one_ string pool.
+        * The string pool is sometimes called the **string table**
+        * All objects are stored on the heap but only strings created by string literal are stored in the string pool.  
+    * Literals with the same content _share storage_
+        * Even if they're in completely different classes or _even_ completely different packages
+    * The process of building the string pool is referred to as **string interning**
+    * Each string in the string pool is an **intern**
+    * String interning exists in Python, Ruby, C#, JavaScript, etc.
+* String (via new)
+    * Stored in the same way as a regular object 
+    * No shared storage even when they have the same content 
+
+all of the below will refer to the same object in memory
+```java
+String s1 = "hello";
+String s2 = "hello";
+String s3 = s1;
+```
+As a result, the following would all evaluate to `true`:
+```java
+s1 = s2;
+s1 = s3;
+s2 = s3;
+```
+But if we were to create the following:
+```java
+String s4 = new String("hello");
+String s5 = new String("hello");
+```
+Then the following would return `false`:
+
+When `new` is used to create a new string object, a copy of that string will actually be created in the String pool and
+a new object will be created in heap memory that is not string pool which will point to that locaion in string pool
+memory.
+
+So, in if not String object of "hello" exists, then creating one using `new` would result in two new objects.One in 
+String pool memory and one in regular heap memory.  
+If one already existed in String pool memory, then creating one using new would result in only a single new object.  
+If no object existed, creating one without new would result in a single new object.  
+If an object existed, creating one with new would result in no new objects.
+
+### Interning
+
+The first time the JVM encounters a string literal it:
+* creates a new String object with the given literal
+* Invokes the `intern()` method to see if an object already exists
+    * it won't exist as this is the first time it's been encountered so it 
+        * adds the new string to the string pool
+        * returns a reference to the new object
+
+The string intern method is basically:
+```java
+if (string in stringPool) {
+    return existingReference;
+} else {
+    newStringReference = createNewStringRference();
+    return newStringReference;
+}
+```
+
+If the string object already exists:
+* creates a new String object with the given literal
+* Invokes the `intern()` method
+* returns a reference to the original string object with that content
+* the string object that was created in the first step is abandoned and will be garbage collected
+
+### Weird situations with interning
+
+The below demonstrates **explicit interning**.
+
+```java
+String s = "hel" + "lo"; // interned because known at compile time
+String s1 = "lo";
+String s2 = "hel" + s1; // not interned as variables are evaluated at run-time
+```
+
+Now let's say you wanted that to be interned if possible
+```java
+s2 = s2.intern();
+```
+After doing this, there will be nothing pointing to the location that `s2` was originally pointing to on the heap and 
+that will subsequently be garbage collected.
+
+Doing manual/explicit interning doesn't actually accomplish much of anything... just let the JVM do its thing.
+
+The one exception to the is in NLP where it's possible that many identical strings could be created.
+
+While combining a string literal and a variable won't perform constant folding:
+```java
+String s1 = "hello";
+String s2 = "hel" + "lo";
+String s3 = "lo";
+String s4 = "hel" + s1; // not interned as variables are evaluated at run-time
+final String s5 = "lo";
+String s6 = "hel" + s5; // allows constant folding
+
+s1 == s2; // true
+s1 == s4; // false
+s1 == s6; // true
+```
+
+## String Immutability
+
+Why are strings immutable?  
+
+### Interning
+
+This allows for string interning!  
+If you could change stuff it would be a whole mess!  
+
+### Concurrency
+
+Immutability alow allows concurrency/multi-threading (similar to list comprehension??).  
+You can share a String object when multi-threading without any concern that the string will be changed elsewhere during
+the operation.
+
+### Security
+
+Security is also a concern. Mutable strings in objects in security applications could lead to vulnerabilities.  
+An example of where this could lead to a vulnerability is with `FileInputStream()`. If you were to pass a string, then
+authenticate, then change the string, you might be able to access something that you're not supposed to be able to
+access.
+
+## String Concatenation
+
+Basic string concatenation just uses the plus operator:
+```java
+String s = "hel" + "lo"; // hello
+String s1 = "hello " + 123; // hello 123
+String s2 = "hello " + 123 + 10.5; // hello 12310.5
+String s3 = 123 + 10.5 + " hello"; // 133.5 hello
+```
+
+### Actually mutate strings?
+
+#### StringBuilder
+
+Introduced in Java4
+
+```java
+StringBuilder sb = new StringBuilder();
+sb.append("hello");
+sb.append(" world!");
+String s = sb.append(" Good").append(" morning").toString();
+```
+
+So, we've created a String in a few different steps using a StringBuilder and then we convert the StringBuilder object
+to a String using the `toString()` method and assign that to a String object `s`.
+
+StringBuilder has other methods like:
+* length
+* delete - deleting characters between two indices
+* insert - inserting at a particular index
+* reverse
+* replace
+
+`append()` and `toString()` are the most commonly used methods.
+
+Note the StringBuilder is not **synchronized**. As a result, you might need to be some funky stuff to support concurrent
+operations.
+
+#### StringBuffer
+
+Was used before the introduction of StringBuilder in Java 5.  
+Deprecated and should not be used.  
+
+StringBuilder is the recommended alternative mostly because it is faster.  
+StringBuffer is synchronized and, because of that, it slows down the program.  
+It's slower because synchronization ensures that only one thread is modifying the StringBuffer at any given moment.
+This ended up being a pain because programmers were apparently using it mostly in single-threaded applications and not
+sharing it across threads.
+
+So, for multi-threading, use StringBuffer. For single-threading, use StringBuilder.
+
+StringBuilder is built to be largely compatible with StringBuffer (i.e. it has all the same methods that work in all the
+same ways).
+
+## String Concatenation Performance
+
+Using the plus operator is a fine way to combine a few strings. That said, it should not be used to combine more than a
+few strings unless performance is irrelevant.
+
+With each concatenation using the plus operator:
+* Contents of both string are copied
+* new StringBuilder is created and appended with both strings
+* return string via a `toString()`
+
+This can be both time consuming (O(N^2)???) and space consuming (due to all of the copies).  
+
+In a benchmark using 16500 iterations:  
+> StringBuider = 300x faster than the String + operator  
+> StringBuilder = 2x faster than StringBuffer  
+
+## Information hiding
+
+It's better to write a good program than a fast one.  
+A good program can be made faster later if necessary. 
+
+Encapsulation is core to good OOP, but does not result in good design in and of itself.  
+
+let's say you have the following class:
+```java
+public class Student {
+    public int id;
+    public String name;
+    public String gender;
+
+    public boolean updateProfile(String name) {
+        this.name = name;
+        return true;
+    }
+}
+```
+
+By declaring all objects attributes as public variables it results in **tight coupling**.
+
+### Tight Coupling
+
+* Can't enforce **invariant**, or a set of valid variables for a value
+    * can't retrict something like gender because that attribute can be accessed directly
+* Can't change **data representation**
+    * Can't change gender from String to int as the client program might still try to access it as a string
+
+In public Classes, **accessor methods** should always be used in place of **public fields**. 
+
+```java
+public boolean setGender(String gender) {
+    assert (gender in genderList);
+    this.gender = gender;
+    return true;
+}
+
+public String getGender() {
+    return gender;
+}
+```
+
+The first method is an **accessor** method and the second is a **setter** method.
+
+**Loose coupling** is things like type-checking take place for you automatically and you're the programmer doesn't even
+need to know the implementation details. There's no meddling directly with data fields.
+
+
+
 
 

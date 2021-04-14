@@ -9,7 +9,7 @@ pre: Called within the constructor of a Fraction object.
 Denominator must be greater than 0.
 post: Modifies numerator and denominator in place, converts to lowest terms.
 
-int getGreatestCommonDivisor(const int& a, const int& b);
+int reduce(int& a, int& b);
 
 pre: Finds the great common divisor of two numbers.
 post: Returns the greatest common divisor of two numbers.
@@ -27,7 +27,9 @@ is one of the two numbers.
 // Helper func prototypes
 
 
-int getGreatestCommonDivisor(const int& a, const int& b);
+void reduce(int& a, int& b);
+void reducePowersOfTwo(int& numerator, int& denominator);
+void reduceOtherPowers(int& numerator, int& denominator);
 
 
 // Member methods
@@ -41,8 +43,8 @@ Fraction::Fraction() : Fraction(0, 1) {}
 
 
 Fraction::Fraction(const int& numerator, const int& denominator) {
-    this->numerator = numerator;
     assert(denominator != 0);
+    this->numerator = numerator;
     this->denominator = denominator;
     simplify();
 }
@@ -126,13 +128,8 @@ bool Fraction::isEqualTo(const Fraction& f) const {
  * post: Modifies numerator and denominator in place, converts to lowest terms.
  */
 void Fraction::simplify() {
-    int greatestCommonDivisor = 1;
-    if (numerator >= 2 && denominator >= 2) {
-        greatestCommonDivisor = getGreatestCommonDivisor(numerator, denominator);
-    }
-    this->numerator /= greatestCommonDivisor;
-    assert(denominator != 0);
-    this->denominator /= greatestCommonDivisor;
+    reducePowersOfTwo(numerator, denominator);
+    reduceOtherPowers(numerator, denominator);
 }
 
 
@@ -143,25 +140,19 @@ void Fraction::simplify() {
 // Helper funcs
 
 
-/*
- * Given two numbers, finds the greatest common divisor.
- * Allows for early termination for numbers where the greatest common divisor
- * is one of the two numbers.
- */
-int getGreatestCommonDivisor(const int& a, const int& b) {
-    int minNumber = std::min(a, b);
-    int maxNumber = std::max(a, b);
-    int greatestCommonDivisor = 1;
+void reducePowersOfTwo(int& numerator, int& denominator) {
+    while ((numerator % 2 == 0) && (denominator % 2 == 0)) {
+        numerator >>= 1;
+        denominator >>= 1;
+    }
+}
 
-    if (maxNumber % minNumber == 0) {
-        greatestCommonDivisor = minNumber;
-    } else {
-        int divisorThreshold = minNumber / 2;
-        for (int i = 1; i <= divisorThreshold; i++) {
-            if (a % i == 0  && b % i == 0) {
-                greatestCommonDivisor = i;
-            }
+
+void reduceOtherPowers(int& numerator, int& denominator) {
+    for (int i = 3; i <= std::min(numerator, denominator); i++) {
+        while (numerator % i == 0 && denominator % i == 0) {
+            numerator /= i;
+            denominator /= i;
         }
     }
-    return greatestCommonDivisor;
 }
