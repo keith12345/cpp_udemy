@@ -82,8 +82,8 @@ Fraction Fraction::multipliedBy(const Fraction& f) const {
 
 Fraction Fraction::dividedBy(const Fraction& f) const {
     return Fraction(
-        f.numerator * this->denominator,
-        f.denominator * this->numerator
+        this->numerator * f.denominator,
+        this->denominator * f.numerator
     );
 }
 
@@ -106,8 +106,8 @@ Fraction Fraction::addedTo(const Fraction& f) const {
 
 Fraction Fraction::subtract(const Fraction& f) const {
     return Fraction(
-        f.numerator * this->denominator - f.denominator * this->numerator,
-        f.denominator * this->denominator
+        this->numerator * f.denominator - this->denominator * f.numerator,
+        this->denominator * f.denominator
     );
 }
 
@@ -126,19 +126,19 @@ namespace cs_fraction {
 // Overloaded mathetical operators
 
 Fraction operator*(const Fraction& leftObj, const Fraction& rightObj) {
-    return rightObj.multipliedBy(leftObj);
+    return leftObj.multipliedBy(rightObj);
 }
 
 Fraction operator/(const Fraction& leftObj, const Fraction& rightObj) {
-    return rightObj.dividedBy(leftObj);
+    return leftObj.dividedBy(rightObj);
 }
 
 Fraction operator+(const Fraction& leftObj, const Fraction& rightObj) {
-    return rightObj.addedTo(leftObj);
+    return leftObj.addedTo(rightObj);
 }
 
 Fraction operator-(const Fraction& leftObj, const Fraction& rightObj) {
-    return rightObj.subtract(leftObj);
+    return leftObj.subtract(rightObj);
 }
 
 // Overloaded compound operators
