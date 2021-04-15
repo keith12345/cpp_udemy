@@ -1,20 +1,34 @@
 /*
 
 Invariants:
-int denominator must be greater than 0
+int denominator must not be equal to zero.
+Default values:
+    int numerator = 0
+    int denominator = 1
 
 void Fraction::simplify();
 
 pre: Called within the constructor of a Fraction object.
 Denominator must be greater than 0.
 post: Modifies numerator and denominator in place, converts to lowest terms.
+Automatically sets numerator to negative if either number is negative.
+Automatically sets denominator to 1 if numerator is 0, otherwise reduces to lowest terms.
 
-int reduce(int& a, int& b);
+void reducePowersOfTwo(int& numerator, int& denominator);
 
-pre: Finds the great common divisor of two numbers.
-post: Returns the greatest common divisor of two numbers.
-Allows for early termination for numbers where the greatest common divisor
-is one of the two numbers.
+pre: Called within the simplify function which is called within the constructor of a
+the Fraction object.
+post: Uses bit shifting for quick division for multiples of 2 (I just wanted an excuse
+to use bitshift). Divides by 2 until either number is not divisible by 2. Modifies the
+numbers in place.
+
+void reduceOtherPowers(int& numerator, int& denominator);
+
+pre: Called within the simplify function which is called within the constructor of a
+the Fraction object.
+post: Divides both numbers by incrementing number n (n >= 3) while both numbers are divisible
+by n. n increments until it is equal to the smaller of the two numbers. Modifies the numbers
+in place.
 
  */
 
@@ -23,13 +37,17 @@ is one of the two numbers.
 #include <cassert>
 #include "fraction.h"
 using namespace std;
-using namespace cs_fraction;
+
+namespace cs_fraction {
+
+
+
+
 
 
 // Helper func prototypes
 
 
-void reduce(int& a, int& b);
 void reducePowersOfTwo(int& numerator, int& denominator);
 void reduceOtherPowers(int& numerator, int& denominator);
 
@@ -48,20 +66,33 @@ Fraction::Fraction(const int& numerator, const int& denominator) {
 }
 
 
+
+
+
+
 int Fraction::getNumerator() const {
     return this->numerator;
 }
 
+
+
+
+
+
 int Fraction::getDenominator() const {
     return this->denominator;
 }
+
+
+
+
+
 
 void Fraction::print() const {
     std::cout << this->numerator
               << "/"
               << this->denominator;
 }
-
 
 
 
@@ -79,6 +110,8 @@ Fraction Fraction::multipliedBy(const Fraction& f) const {
 
 
 
+
+// Operation methods
 
 Fraction Fraction::dividedBy(const Fraction& f) const {
     return Fraction(
@@ -121,7 +154,9 @@ bool Fraction::isEqualTo(const Fraction& f) const {
 }
 
 
-namespace cs_fraction {
+
+
+
 
 // Overloaded mathetical operators
 
@@ -129,17 +164,37 @@ Fraction operator*(const Fraction& leftObj, const Fraction& rightObj) {
     return leftObj.multipliedBy(rightObj);
 }
 
+
+
+
+
+
 Fraction operator/(const Fraction& leftObj, const Fraction& rightObj) {
     return leftObj.dividedBy(rightObj);
 }
+
+
+
+
+
 
 Fraction operator+(const Fraction& leftObj, const Fraction& rightObj) {
     return leftObj.addedTo(rightObj);
 }
 
+
+
+
+
+
 Fraction operator-(const Fraction& leftObj, const Fraction& rightObj) {
     return leftObj.subtract(rightObj);
 }
+
+
+
+
+
 
 // Overloaded compound operators
 
@@ -148,58 +203,108 @@ Fraction& Fraction::operator*=(const Fraction& f) {
     return *this;
 }
 
+
+
+
+
+
 Fraction& Fraction::operator/=(const Fraction& f) {
     *this = *this / f;
     return *this;
 }
+
+
+
+
+
 
 Fraction& Fraction::operator+=(const Fraction& f) {
     *this = *this + f;
     return *this;
 }
 
+
+
+
+
+
 Fraction& Fraction::operator-=(const Fraction& f) {
     *this = *this - f;
     return *this;
 }
 
+
+
+
+
+
 // Overloaded comparison operators
 
 bool operator>(const Fraction& leftObj, const Fraction& rightObj) {
     return (
-        static_cast<double>(leftObj.numerator)/leftObj.denominator
-        > static_cast<double>(rightObj.numerator)/rightObj.denominator
+        leftObj.numerator * rightObj.denominator
+        > rightObj.numerator * leftObj.denominator
     );
 }
+
+
+
+
+
 
 bool operator<(const Fraction& leftObj, const Fraction& rightObj) {
     return (
-        static_cast<double>(leftObj.numerator)/leftObj.denominator
-        < static_cast<double>(rightObj.numerator)/rightObj.denominator
+        leftObj.numerator * rightObj.denominator
+        < rightObj.numerator * leftObj.denominator
     );
 }
+
+
+
+
+
 
 bool operator>=(const Fraction& leftObj, const Fraction& rightObj) {
     return (
-        static_cast<double>(leftObj.numerator)/leftObj.denominator
-        >= static_cast<double>(rightObj.numerator)/rightObj.denominator
+        leftObj.numerator * rightObj.denominator
+        >= rightObj.numerator * leftObj.denominator
     );
 }
 
+
+
+
+
+
 bool operator<=(const Fraction& leftObj, const Fraction& rightObj) {
     return (
-        static_cast<double>(leftObj.numerator)/leftObj.denominator
-        <= static_cast<double>(rightObj.numerator)/rightObj.denominator
+        leftObj.numerator * rightObj.denominator
+        <= rightObj.numerator * leftObj.denominator
     );
 }
+
+
+
+
+
 
 bool operator==(const Fraction& leftObj, const Fraction& rightObj) {
     return rightObj.isEqualTo(leftObj);
 }
 
+
+
+
+
+
 bool operator!=(const Fraction& leftObj, const Fraction& rightObj) {
     return !rightObj.isEqualTo(leftObj);
 }
+
+
+
+
+
 
 // Incrementers/Decrementers
 
@@ -208,22 +313,42 @@ Fraction& Fraction::operator++() {
     return *this;
 }
 
+
+
+
+
+
 Fraction Fraction::operator++(int) {
     Fraction temp = Fraction(*this);
     this->numerator += this->denominator;
     return temp;
 }
 
+
+
+
+
+
 Fraction& Fraction::operator--() {
     this->numerator -= this->denominator;
     return *this;
 }
+
+
+
+
+
 
 Fraction Fraction::operator--(int) {
     Fraction temp = Fraction(*this);
     this->numerator -= this->denominator;
     return temp;
 }
+
+
+
+
+
 
 // Overloaded insertion and extraction operators
 
@@ -247,12 +372,12 @@ std::ostream& operator<<(std::ostream& os, const Fraction& obj) {
     return os;
 }
 
+
+
+
+
+
 std::istream& operator>>(std::istream& is, Fraction& obj) {
-    bool isNegative = false;
-    if (is.peek() == '-') {
-        isNegative = true;
-        is.ignore();
-    }
     int numerator;
     is >> numerator;
 
@@ -270,26 +395,41 @@ std::istream& operator>>(std::istream& is, Fraction& obj) {
         denominator = 1;
     }
 
-    numerator = (wholeNumber * denominator + numerator);
-    if (isNegative)
-        numerator = -numerator;
+    if (wholeNumber < 0) {
+        numerator = (wholeNumber * denominator - numerator);
+    } else {
+        numerator = (wholeNumber * denominator + numerator);
+    }
+
     obj.numerator = numerator;
     obj.denominator = denominator;
     obj.simplify();
     return is;
 }
 
-}
 
+
+
+
+
+// utils
 
 /*
  * pre: Called within the constructor of a Fraction object.
- * Denominator must be greater than 0.
+ * Denominator must not be equal to 0.
  * post: Modifies numerator and denominator in place, converts to lowest terms.
  */
 void Fraction::simplify() {
-    reducePowersOfTwo(numerator, denominator);
-    reduceOtherPowers(numerator, denominator);
+    if (denominator < 0) {
+        numerator *= -1;
+        denominator *= -1;
+    }
+    if (numerator == 0) {
+        denominator = 1;
+    } else {
+        reducePowersOfTwo(numerator, denominator);
+        reduceOtherPowers(numerator, denominator);
+    }
 }
 
 
@@ -299,13 +439,16 @@ void Fraction::simplify() {
 
 // Helper funcs
 
-
 void reducePowersOfTwo(int& numerator, int& denominator) {
     while ((numerator % 2 == 0) && (denominator % 2 == 0)) {
         numerator >>= 1;
         denominator >>= 1;
     }
 }
+
+
+
+
 
 
 void reduceOtherPowers(int& numerator, int& denominator) {
@@ -315,4 +458,11 @@ void reduceOtherPowers(int& numerator, int& denominator) {
             denominator /= i;
         }
     }
+}
+
+
+
+
+
+
 }
