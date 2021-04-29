@@ -24,8 +24,7 @@ post: Returns a new reduced fraction in lowest terms.
 
 Fraction dividedBy(const Fraction& f) const;
 
-pre: Method called off of one fraction object, takes another fraction object as its argument.
-Divides the Fraction object by a passed Fraction object.
+pre: Method called off of one fraction object, takes another fraction object as its argument.  Divides the Fraction object by a passed Fraction object.
 post: Returns a new Fraction object in lowest terms.
 
 Fraction addedTo(const Fraction& f) const;
@@ -94,3 +93,18 @@ class Fraction {
 
 
 #endif
+
+
+
+
+
+
+/*
+   The result starts off at 0/1
+   The product of 9/8 and 2/3 is 3/4
+   The quotient of 9/8 and 2/3 is 27/16
+   The sum of 9/8 and 2/3 is 43/24
+   The difference of 9/8 and 2/3 is 11/24
+   The two Fractions are not equal.
+   The product of 3/2 and 2/3 is 1/1
+ */

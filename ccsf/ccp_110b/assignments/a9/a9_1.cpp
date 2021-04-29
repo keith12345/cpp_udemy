@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cassert>
-#include "Fraction.h"
+#include "fraction.h"
 using namespace std;
 
 

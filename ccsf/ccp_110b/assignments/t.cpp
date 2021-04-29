@@ -1,20 +1,27 @@
+#include <ios>
 #include <iostream>
-#include <string>
 #include <limits>
+#include <cstring>
+#include <iomanip>
 
 
-enum Person { BILL, JOHN, CLAIRE, BOB };
+//enum Person { BILL, JOHN, CLAIRE, BOB };
+int test;
+struct T {
+    struct tt;
+};
 
 
 int main() {
-    Person p;
-    p = BOB;
-    //p++;
-    BILL > BOB;
-    p = static_cast<Person>(0);
-    p = static_cast<Person>(12);
-    int x = {BILL};
-    Person pp = static_cast<Person>(40000000000);
-    std::cout << (40000000000 - 1345294336) << std::endl;
-    std::cout << pp << std::endl;
+    std::cout << std::boolalpha << std::endl;
+    std::cout << std::isalpha('a') << std::endl;
+    char c = '%';
+    bool b = std::isalpha(c);
+    std::cout << b << std::endl;
+    c = std::toupper('a');
+    std::cout << c << std::endl;
+    char s[] = "ooo test ooo";
+    char s2[] = "test";
+    bool bb = std::strcmp(s, s2);
+    std::cout << bb << std::endl;
 }
