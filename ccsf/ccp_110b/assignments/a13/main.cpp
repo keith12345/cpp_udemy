@@ -1,4 +1,7 @@
-#include "creature.h"
+#include "human.h"
+#include "elf.h"
+#include "cyberdemon.h"
+#include "balrog.h"
 using namespace cs_creature;
 
 
@@ -116,3 +119,78 @@ void battleArena(Creature& c1, Creature& c2) {
 	}
 	printVictor(c1, c2);
 }
+
+
+
+
+
+
+/*
+
+-------------------------------------------
+|          Get ready to Battle!!          |
+|              Elf vs. Balrog             |
+|                                         |
+|                 FIGHT!!!                |
+|                                         |
+-------------------------------------------
+
+The Balrog attacks for 42 points!
+Balrog speed attack inflicts 6 additional damage points!
+The Elf attacks for 48 points!
+The Elf has 2 hitpoints remaining!
+The Balrog has 2 hitpoints remaining!
+
+	Round number 1 complete!
+
+The Balrog attacks for 5 points!
+Demonic attack inflicts 50 additional damage points!
+Balrog speed attack inflicts 34 additional damage points!
+The Elf attacks for 8 points!
+Magical attack inflicts 8 additional damage points!
+The Elf has 0 hitpoints remaining!
+The Balrog has 0 hitpoints remaining!
+
+	Round number 2 complete!
+
+It's a draw!
+
+-------------------------------------------
+|          Get ready to Battle!!          |
+|           Human vs. Cyberdemon          |
+|                                         |
+|                 FIGHT!!!                |
+|                                         |
+-------------------------------------------
+
+The Cyberdemon attacks for 3 points!
+The Human attacks for 21 points!
+The Human has 17 hitpoints remaining!
+The Cyberdemon has 29 hitpoints remaining!
+
+	Round number 1 complete!
+
+The Cyberdemon attacks for 4 points!
+The Human attacks for 2 points!
+The Human has 13 hitpoints remaining!
+The Cyberdemon has 27 hitpoints remaining!
+
+	Round number 2 complete!
+
+The Cyberdemon attacks for 4 points!
+The Human attacks for 25 points!
+The Human has 9 hitpoints remaining!
+The Cyberdemon has 2 hitpoints remaining!
+
+	Round number 3 complete!
+
+The Cyberdemon attacks for 11 points!
+The Human attacks for 19 points!
+The Human has 0 hitpoints remaining!
+The Cyberdemon has 0 hitpoints remaining!
+
+	Round number 4 complete!
+
+It's a draw!
+
+ */

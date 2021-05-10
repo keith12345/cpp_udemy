@@ -2,6 +2,9 @@
 #include <iostream>
 using namespace std;
 
+#ifndef CREATURE_H
+#define CREATURE_H
+
 namespace cs_creature {
 
     class Creature {
@@ -20,43 +23,6 @@ namespace cs_creature {
             bool updateStrengh(int strengh);
             bool updateHitpoints(int hitpoints);
     };
-
-    class Human: public Creature {
-        public:
-            Human();
-            Human(int strengh, int hitpoints);
-            string getSpecies() const;
-    };
-
-    class Elf: public Creature {
-        public:
-            Elf();
-            Elf(int strengh, int hitpoints);
-            string getSpecies() const;
-            int getDamage() const;
-    };
-
-    class Demon: public Creature {
-        public:
-            Demon();
-            Demon(int strengh, int hitpoints);
-            virtual string getSpecies() const = 0;
-            virtual int getDamage() const;
-    };
-
-    class Balrog: public Demon {
-        public:
-            Balrog();
-            Balrog(int strengh, int hitpoints);
-            string getSpecies() const;
-            int getDamage() const;
-    };
-
-    class Cyberdemon: public Demon {
-        public:
-            Cyberdemon();
-            Cyberdemon(int strengh, int hitpoints);
-            string getSpecies() const;
-    };
-
 }
+
+#endif

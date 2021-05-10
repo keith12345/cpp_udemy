@@ -151,9 +151,6 @@ namespace cs_mystring {
 
 
     std::istream& operator>>(std::istream& is, MyString& obj) {
-        while (is.peek() == ' ') {
-            is.ignore();
-        }
         char inputStr[MyString::MAX_INPUT_SIZE + 1];
         is >> inputStr;
         delete [] obj.str;
