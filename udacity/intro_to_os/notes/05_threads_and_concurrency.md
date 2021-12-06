@@ -135,7 +135,7 @@ Must have a data structure that allows us to distinguish between threads and pro
 Should allow identification of specific threads and to keep track of their resource
 usage.  
 
-Must have mechanisms to **create** and **mange** threads. There must also be mechanisms
+Must have mechanisms to **create** and **manage** threads. There must also be mechanisms
 to safely **coordinate** among concurrently running threads in the same address space.  
 
 ### To know the type of coordination required, we must know the potential issues
@@ -148,7 +148,7 @@ By their nature, separate processes cannot access the same space.
 By their nature, threads have access to the same space. This means that when and how
 access is performed needs to be managed.  
 The method for allowing access for only a single thread at a time is **mutual exclusion**.  
-The tool/package/??? to do this is called a **mutex**.  
+The way this is done is by use of an object called a **mutex**.  
 OSs will also offer threads a mechanism to **wait** on other threads or until specific
 conditions are met.  
 **Condition variables** are used to handle this type of inter-thread coordination.  
@@ -411,7 +411,7 @@ and will **Broadcast** that all readers can access, then **Signal** that a write
 access (if no readers got to it first).
 
 
-### Why do we need a `while` look to check out resource counter
+### Why do we need a `while` loop to check out resource counter
 
 When the writer thread receives the signal for the `write_phase` variable, it will be
 woken up.  
