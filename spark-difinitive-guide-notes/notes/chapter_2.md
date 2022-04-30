@@ -59,8 +59,8 @@ A **wide dependency** style transformtion (or **wide transformation**) will have
 output partitions - think `n x m` complexity.  
 This is often referred to as a **shuffle** in which Spark will exchange partitions across a cluster.
 
-With narrow transformations, spark with automatically perform an operation called **pipelining** - mean that if we
-specify multiple filter on DataFrames, they'll all be performed in memroy (can't say the same for shuffles).  
+With narrow transformations, spark with automatically perform an operation called **pipelining** - meaning that if we
+specify multiple filters on DataFrames, they'll all be performed in memory (can't say the same for shuffles).  
 Spark will write data to disk during shuffles when necessary.
 
 ## Lazy Evaluation
